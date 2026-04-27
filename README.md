@@ -28,9 +28,29 @@ If `ggml` is already present at `.\ggml`, `KD_GGML_DIR` is not needed.
 build_cuda\bin\kandinsky-cli.exe
 ```
 
+Linux + CUDA:
+
+```bash
+git clone https://github.com/AkaneTendo25/kandinsky.cpp
+cd kandinsky.cpp
+git clone https://github.com/ggml-org/ggml deps/ggml
+export KD_GGML_DIR="$(pwd)/deps/ggml"
+bash build_cuda.sh
+```
+
+Requires `CMake`, `Ninja`, `ffmpeg`, and a CUDA toolkit visible to CMake.
+
+If `ggml` is already present at `./ggml`, `KD_GGML_DIR` is not needed.
+
+```bash
+./build_cuda/bin/kandinsky-cli
+```
+
 ## Run Inference
 
 Example `5s` video run at `24 fps`:
+
+Windows:
 
 ```powershell
 build_cuda\bin\kandinsky-cli.exe `
@@ -47,6 +67,26 @@ build_cuda\bin\kandinsky-cli.exe `
   --seed 123 `
   -t 8 `
   --type q4_0 `
+  --text-cpu
+```
+
+Linux:
+
+```bash
+./build_cuda/bin/kandinsky-cli \
+  -m <path-to-K5-GGUF>/q4/ \
+  -p "three energetic cats sprinting and weaving through fresh snow in a narrow alley, dynamic handheld camera following them, snow spraying everywhere, cinematic lighting, detailed fur, coherent motion" \
+  -n "blurry, deformed, duplicate animals, extra limbs, low quality, washed out" \
+  -o outputs/cats.mp4 \
+  -W 512 -H 512 \
+  --frames 121 \
+  --fps 24 \
+  -s 24 \
+  --cfg-scale 5.0 \
+  --scheduler-scale 5.0 \
+  --seed 123 \
+  -t 8 \
+  --type q4_0 \
   --text-cpu
 ```
 
